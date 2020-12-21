@@ -5,7 +5,7 @@
  * @param {String} input 
  */
 function rec_bin2dec(input){
-   // input=input.split("").reverse().join(""); recursive ops
+   // input=input.split("").reverse().join(""); recursive ops don't want to backflip forever
     if(input.length==1)
         return Number(input[0]);
     else 
@@ -16,6 +16,7 @@ document.getElementById("calculate").addEventListener("click",function(){
     console.trace();//debug
     var input =document.getElementById("number").value;
     var output = rec_bin2dec(input);
+    //var output= parseInt(input,2);
     document.getElementById("output").value= output;
 
 });
