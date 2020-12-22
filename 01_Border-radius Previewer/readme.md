@@ -10,11 +10,9 @@ there 2 major problem in this task
 
 
 
-
-
-
-
-thoughts document.getElementById is too restrictive , better transition to querySelector 
+thoughts:
+- document.getElementById is too restrictive , better transition to querySelector 
 and querySelectorAll https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelectorAll#JavaScript 
 put the :scope pseudoclass to match the espected scope
- 
+
+- understand 8 value border radius https://codepen.io/thebabydino/pen/zbqPVd  
