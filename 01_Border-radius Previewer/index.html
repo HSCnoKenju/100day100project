@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 200px;
+            height: 150px;
+            background-color: green;
+        }
+        .container{
+            display: block;
+            width: 100%;
+            
+        }
+        .intestation{
+            margin: 0 50px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label class="intestation" for="top-left">top-left</label>
+        <label class="intestation" for="top-right">top-right</label>
+        <label class="intestation" for="bottom-right">bottom-right</label>
+        <label class="intestation" for="bottom-left">bottom-left</label>
+        <br>
+        <input type="text"  id="top-left">
+        <input type="text"  id="top-right">
+        <input type="text"  id="bottom-right">
+        <input type="text"  id="bottom-left">
+        
+        <div class="box"id='box'></div>
+        <input type="button" value="animate" id="animate">
+        <input type="button" value="copytoClipboard" id="copy">
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
