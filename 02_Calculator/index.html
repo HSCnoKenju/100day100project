@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!--<link rel="stylesheet" href="style.css"> -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    textarea {
+      resize: none;
+      width: 100%;
+      font-size: 30px;
+      text-align: right;
+
+    }
+
+    .keyboard {
+      width: 600px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 50px;
+    }
+    .display{
+      width: 600px;
+    }
+
+    .box2 {
+      grid-column-start: 4;
+      grid-row-start: 4;
+      grid-row-end: 6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="display">
+  <textarea name="" id="display" disabled readonly ></textarea>
+</div>
+  <div class="keyboard">
+    <button id="C" value="C">C</button>
+    <button class="operation" value="/">/</button>
+    <button class="operation" value="*">*</button>
+    <button id="CE" value="CE">CE</button>
+    <button class="number" value="7">7</button>
+    <button class="number" value="8">8</button>
+    <button class="number" value="9">9</button>
+    <button class="operation" value="-">-</button>
+    <button class="number" value="4">4</button>
+    <button class="number" value="5">5</button>
+    <button class="number" value="6">6</button>
+    <button class="operation" value="+">+</button>
+    <button class="number" value="1">1</button>
+    <button class="number" value="2">2</button>
+    <button class="number" value="3">3</button>
+    <button class="operation" value="pm">+/-</button>
+    <button class="number" value="0">0</button>
+    <button class="number" value=".">.</button> 
+    <button class="box2 operation" value="=">=</button>
+  </div>
+<script>
+  function numberClickHandler(event){
+    console.log(event);
+    document.getElementById("display").nodeValue=event.target.value; 
+
+  }
+  var inputs =[];
+  var displays =[];
+  var ans =[];
+  var operations =[];
+  var numbersBtns = document.getElementsByClassName("number");
+  
+  numbersBtns[0].addEventListener("click",()=>{
+    document.getElementById("display").value = document.getElementById("display").value + event.target.value; 
+    console.log(event.target);
+  })
+
+  
+  //numbersBtns.forEach(element=>element.addEventListener("click",numberClickHandler(event),false));
+
+
+</script>
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>
