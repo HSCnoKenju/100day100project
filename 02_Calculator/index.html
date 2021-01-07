@@ -59,31 +59,36 @@
     <button class="number" value="1">1</button>
     <button class="number" value="2">2</button>
     <button class="number" value="3">3</button>
-    <button class="operation" value="pm">+/-</button>
+    <button id="pm" value="pm">+/-</button>
     <button class="number" value="0">0</button>
     <button class="number" value=".">.</button>
     <button class="box2 operation" value="=">=</button>
   </div>
   <script>
+    function debug_table() {
+      let debugtable = { "inputs": validInputs, "displays": displays, "ans": ans, "operations": operations };
+      console.table(debugtable);
+    }
 
     function operationClickHandler(event) {
+
+
       if (validInputs.length != 0) {  // if first input is operation ,dont add it to validInputs list
-        if (number.indexOf(validInputs[validInputs.length - 1]) == -1) {// last input is an operation
+        if (number.indexOf(validInputs[validInputs.length - 1]) == -1&&validInputs[validInputs.length - 1]!="pm") {// last input is an operation
           validInputs[validInputs.length - 1] = event.target.value;
           if (operations[operations.length - 1] != "=") {
             let lastValue = displays[displays.length - 1];
-            displays[displays.length - 1] = lastValue.substring(0, lastValue.length - 1) + event.target.value;
+            displays[displays.length - 1] = lastValue.substring(0, lastValue.length - 1) + event.target.value;// substitute last operation simbol
           } else {
-            displays[displays.length - 1] = displays[displays.length - 1] + event.target.value;
+            if (event.target.value != "=")
+              displays[displays.length - 1] = displays[displays.length - 1] + event.target.value;
           }
-          operations[operations.length - 1] = event.target.value;
-
-
-        } else { // last input is number
+          operations[operations.length - 1] = event.target.value; //substitute last operation
+        }
+        else { // last input is number
           validInputs.push(event.target.value);
           if (ans.length == 0) {// first operation
-
-            ans.push(displays[displays.length - 1]);
+            ans.push(Number(displays[displays.length - 1]));
             operations.push(event.target.value);
             displays.push(displays[displays.length - 1] + validInputs[validInputs.length - 1]);
           } else { // already one operation entered
@@ -103,22 +108,21 @@
               case "=":
                 ans.push(Number(displays[displays.length - 1]));
                 break;
+              case "pm":
+                //do nothing
+                break;
               default:
                 console.log("Errore switch , ultima operazione " + operations[operations.length - 1]);
             }
 
             displays.push(ans[ans.length - 1] + (event.target.value == "=" ? "" : event.target.value));
             operations.push(event.target.value);
-
-
-
           }
 
         }
-        let debugtable = { "inputs": validInputs, "displays": displays, "ans": ans, "operations": operations };
-        console.table(debugtable);
         document.getElementById("display").value = displays[displays.length - 1];
 
+        debug_table();
       }
 
     }
@@ -142,8 +146,7 @@
       // console.log(displays);
       document.getElementById("display").value = displays[displays.length - 1];
 
-      let debugtable = { "inputs": validInputs, "displays": displays, "ans": ans, "operations": operations };
-      console.table(debugtable);
+      debug_table();
     }
     const number = "0123456789.";
     var validInputs = [];
@@ -165,8 +168,23 @@
       element.addEventListener("click", (event) => {
         operationClickHandler(event);
       })
-
     }
+
+    const plusminusBtn = document.getElementById("pm").addEventListener("click", (event) => {
+      if (number.indexOf(validInputs[validInputs.length - 1]) != -1 || validInputs[validInputs.length - 1] == "pm") {// last input number
+        displays.push((Number(displays[displays.length - 1]) * -1) + "");
+        ans.push(Number(displays[displays.length - 1]));
+        operations.push(event.target.value);
+
+      }
+      else {//last input operation 
+
+      }
+      validInputs.push(event.target.value);
+      document.getElementById("display").value = displays[displays.length - 1];
+
+      debug_table();
+    })
 
 
 
