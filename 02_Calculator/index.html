@@ -74,7 +74,7 @@
 
 
       if (validInputs.length != 0) {  // if first input is operation ,dont add it to validInputs list
-        if (number.indexOf(validInputs[validInputs.length - 1]) == -1&&validInputs[validInputs.length - 1]!="pm") {// last input is an operation
+        if (number.indexOf(validInputs[validInputs.length - 1]) == -1 && validInputs[validInputs.length - 1] != "pm") {// last input is an operation
           validInputs[validInputs.length - 1] = event.target.value;
           if (operations[operations.length - 1] != "=") {
             let lastValue = displays[displays.length - 1];
@@ -175,12 +175,16 @@
         displays.push((Number(displays[displays.length - 1]) * -1) + "");
         ans.push(Number(displays[displays.length - 1]));
         operations.push(event.target.value);
+        validInputs.push(event.target.value);
 
       }
       else {//last input operation 
-
+        ans.push(ans[ans.length - 1] * -1);
+        displays.push(ans[ans.length - 1] +"");
+        operations[operations.length-1] =(event.target.value);
+        validInputs[validInputs.length - 1] = event.target.value;
       }
-      validInputs.push(event.target.value);
+
       document.getElementById("display").value = displays[displays.length - 1];
 
       debug_table();
