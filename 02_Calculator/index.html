@@ -170,7 +170,8 @@
       })
     }
 
-    const plusminusBtn = document.getElementById("pm").addEventListener("click", (event) => {
+    document.getElementById("pm").addEventListener("click", (event) => {
+      if (displays.length != 1) {
       if (number.indexOf(validInputs[validInputs.length - 1]) != -1 || validInputs[validInputs.length - 1] == "pm") {// last input number
         displays.push((Number(displays[displays.length - 1]) * -1) + "");
         ans.push(Number(displays[displays.length - 1]));
@@ -180,20 +181,33 @@
       }
       else {//last input operation 
         ans.push(ans[ans.length - 1] * -1);
-        displays.push(ans[ans.length - 1] +"");
-        operations[operations.length-1] =(event.target.value);
+        displays.push(ans[ans.length - 1] + "");
+        operations[operations.length - 1] = (event.target.value);
         validInputs[validInputs.length - 1] = event.target.value;
       }
 
       document.getElementById("display").value = displays[displays.length - 1];
 
       debug_table();
+    }})
+
+    document.getElementById("CE").addEventListener("click", (event) => {
+      validInputs = [];
+      displays = [''];
+      ans = [];
+      operations = [];
+      document.getElementById("display").value = displays[displays.length - 1];
+
+      debug_table();
     })
+    document.getElementById("C").addEventListener("click", (event) => {
+      if(validInputs.length!=0){
 
 
+        
+      }
 
-  //numbersBtns.forEach(element=>element.addEventListener("click",numberClickHandler(event),false));
-
+    }
 
   </script>
 
