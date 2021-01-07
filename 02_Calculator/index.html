@@ -26,7 +26,8 @@
       grid-template-columns: repeat(4, 1fr);
       grid-auto-rows: 50px;
     }
-    .display{
+
+    .display {
       width: 600px;
     }
 
@@ -40,8 +41,8 @@
 
 <body>
   <div class="display">
-  <textarea name="" id="display" disabled readonly ></textarea>
-</div>
+    <textarea name="" id="display" disabled readonly></textarea>
+  </div>
   <div class="keyboard">
     <button id="C" value="C">C</button>
     <button class="operation" value="/">/</button>
@@ -60,31 +61,119 @@
     <button class="number" value="3">3</button>
     <button class="operation" value="pm">+/-</button>
     <button class="number" value="0">0</button>
-    <button class="number" value=".">.</button> 
+    <button class="number" value=".">.</button>
     <button class="box2 operation" value="=">=</button>
   </div>
-<script>
-  function numberClickHandler(event){
-    console.log(event);
-    document.getElementById("display").nodeValue=event.target.value; 
+  <script>
 
-  }
-  var inputs =[];
-  var displays =[];
-  var ans =[];
-  var operations =[];
-  var numbersBtns = document.getElementsByClassName("number");
-  
-  numbersBtns[0].addEventListener("click",()=>{
-    document.getElementById("display").value = document.getElementById("display").value + event.target.value; 
-    console.log(event.target);
-  })
+    function operationClickHandler(event) {
+      if (validInputs.length != 0) {  // if first input is operation ,dont add it to validInputs list
+        if (number.indexOf(validInputs[validInputs.length - 1]) == -1) {// last input is an operation
+          validInputs[validInputs.length - 1] = event.target.value;
+          if (operations[operations.length - 1] != "=") {
+            let lastValue = displays[displays.length - 1];
+            displays[displays.length - 1] = lastValue.substring(0, lastValue.length - 1) + event.target.value;
+          } else {
+            displays[displays.length - 1] = displays[displays.length - 1] + event.target.value;
+          }
+          operations[operations.length - 1] = event.target.value;
 
-  
+
+        } else { // last input is number
+          validInputs.push(event.target.value);
+          if (ans.length == 0) {// first operation
+
+            ans.push(displays[displays.length - 1]);
+            operations.push(event.target.value);
+            displays.push(displays[displays.length - 1] + validInputs[validInputs.length - 1]);
+          } else { // already one operation entered
+            switch (operations[operations.length - 1]) {
+              case "+":
+                ans.push(Number(ans[ans.length - 1]) + Number(displays[displays.length - 1]));
+                break;
+              case "-":
+                ans.push(Number(ans[ans.length - 1]) - Number(displays[displays.length - 1]));
+                break;
+              case "/":
+                ans.push(Number(ans[ans.length - 1]) / Number(displays[displays.length - 1]));
+                break;
+              case "*":
+                ans.push(Number(ans[ans.length - 1]) * Number(displays[displays.length - 1]));
+                break;
+              case "=":
+                ans.push(Number(displays[displays.length - 1]));
+                break;
+              default:
+                console.log("Errore switch , ultima operazione " + operations[operations.length - 1]);
+            }
+
+            displays.push(ans[ans.length - 1] + (event.target.value == "=" ? "" : event.target.value));
+            operations.push(event.target.value);
+
+
+
+          }
+
+        }
+        let debugtable = { "inputs": validInputs, "displays": displays, "ans": ans, "operations": operations };
+        console.table(debugtable);
+        document.getElementById("display").value = displays[displays.length - 1];
+
+      }
+
+    }
+    function numberClickHandler(event) {
+      // console.log(document.getElementById("display"));
+      // console.log(event.target.value);
+
+      //console.log(validInputs);
+      if (validInputs.length == 0 || number.indexOf(validInputs[validInputs.length - 1]) != -1) {//last input was number or validInputs==empty list
+        //don't put 2 dot in one string
+        if (!(event.target.value == "." && (displays[displays.length - 1].indexOf(".") != -1))) {
+          validInputs.push(event.target.value);
+          displays.push(displays[displays.length - 1] + validInputs[validInputs.length - 1]);
+        }
+      } else // last input is  operations
+      {
+        validInputs.push(event.target.value);
+        //console.assert(number.indexOf(validInputs[validInputs.length - 2]) != -1,"not number");
+        displays.push(validInputs[validInputs.length - 1]);
+      }
+      // console.log(displays);
+      document.getElementById("display").value = displays[displays.length - 1];
+
+      let debugtable = { "inputs": validInputs, "displays": displays, "ans": ans, "operations": operations };
+      console.table(debugtable);
+    }
+    const number = "0123456789.";
+    var validInputs = [];
+    var displays = [''];
+    var ans = [];
+    var operations = [];
+    const numbersBtns = document.getElementsByClassName("number");
+
+    for (let index = 0; index < numbersBtns.length; index++) {
+      const element = numbersBtns[index];
+      element.addEventListener("click", (event) => {
+        numberClickHandler(event);
+      })
+    }
+
+    const operationBtns = document.getElementsByClassName("operation");
+    for (let index = 0; index < operationBtns.length; index++) {
+      const element = operationBtns[index];
+      element.addEventListener("click", (event) => {
+        operationClickHandler(event);
+      })
+
+    }
+
+
+
   //numbersBtns.forEach(element=>element.addEventListener("click",numberClickHandler(event),false));
 
 
-</script>
+  </script>
 
 
   <script src="script.js"></script>
